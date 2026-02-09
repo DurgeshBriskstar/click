@@ -1,0 +1,26 @@
+
+// MUI
+import Drawer from "@mui/material/Drawer";
+import { styled } from "@mui/material/styles";
+import { themeColors } from "theme/theme-colors";
+const Wrapper = styled("div")(({ theme }) => ({
+  height: "100%",
+  width: "inherit",
+  position: "fixed",
+  overflow: "hidden",
+  boxShadow: theme.shadows[1],
+  zIndex: theme.zIndex.drawer + 3,
+  color: theme.palette.common.white,
+  backgroundColor: themeColors?.lBlue,
+}));
+
+
+export default function LayoutDrawer(props) {
+  const { children, open, onClose, drawerWidth = 280 } = props || {};
+
+  return (
+    <Drawer open={open} anchor="left" onClose={onClose} slotProps={{ paper: { sx: { width: drawerWidth } } }}>
+      <Wrapper>{children}</Wrapper>
+    </Drawer>
+  );
+}

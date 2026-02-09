@@ -1,0 +1,111 @@
+{
+  "sections": {
+    "banner_section": {
+      "title": "SERVICES",
+      "banner_image": "/images/sections/services/services-banner.jpg"
+    },
+    "intro_section": {
+      "title": "Empowering Companies With Reliable & Scalable IT Services",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    }
+  },
+  "services": [
+    {
+      "id": 1,
+      "name": "Click IT Computers",
+      "service_name": "Click IT Computers",
+      "slug": "click-it-computers",
+      "description": "Comprehensive computer services and support including managed IT support, consulting, hardware and software solutions, IT support & helpdesk, and IT infrastructure & network services.",
+      "service_description": "Comprehensive computer services and support including managed IT support, consulting, hardware and software solutions, IT support & helpdesk, and IT infrastructure & network services.",
+      "image": "/images/sections/services/service-1.jpg",
+      "service_image": "/images/sections/services/service-1.jpg",
+      "thumbnail": "/images/sections/services/service-1.jpg",
+      "icon": "computer"
+    },
+    {
+      "id": 2,
+      "name": "Click IT Website Design",
+      "service_name": "Click IT Website Design",
+      "slug": "click-it-website-design",
+      "description": "Professional website design and development services to help your business establish a strong online presence with modern, responsive, and user-friendly websites.",
+      "service_description": "Professional website design and development services to help your business establish a strong online presence with modern, responsive, and user-friendly websites.",
+      "image": "/images/sections/services/service-2.jpg",
+      "service_image": "/images/sections/services/service-2.jpg",
+      "thumbnail": "/images/sections/services/service-2.jpg",
+      "icon": "website"
+    },
+    {
+      "id": 3,
+      "name": "Click IT Secure",
+      "service_name": "Click IT Secure",
+      "slug": "click-it-secure",
+      "description": "Advanced security solutions for your business including cybersecurity, threat monitoring, data protection, and comprehensive security audits to keep your systems safe.",
+      "service_description": "Advanced security solutions for your business including cybersecurity, threat monitoring, data protection, and comprehensive security audits to keep your systems safe.",
+      "image": "/images/sections/services/service-3.jpg",
+      "service_image": "/images/sections/services/service-3.jpg",
+      "thumbnail": "/images/sections/services/service-3.jpg",
+      "icon": "security"
+    },
+    {
+      "id": 4,
+      "name": "Click IT Phones",
+      "service_name": "Click IT Phones",
+      "slug": "click-it-phones",
+      "description": "Complete phone system solutions and support including VoIP setup, phone system installation, maintenance, and ongoing support for businesses of all sizes.",
+      "service_description": "Complete phone system solutions and support including VoIP setup, phone system installation, maintenance, and ongoing support for businesses of all sizes.",
+      "image": "/images/sections/services/service-4.jpg",
+      "service_image": "/images/sections/services/service-4.jpg",
+      "thumbnail": "/images/sections/services/service-4.jpg",
+      "icon": "phone"
+    },
+    {
+      "id": 5,
+      "name": "Click IT Email",
+      "service_name": "Click IT Email",
+      "slug": "click-it-email",
+      "description": "Secure and reliable email hosting and management services with advanced features, spam protection, and 24/7 support to keep your business communications running smoothly.",
+      "service_description": "Secure and reliable email hosting and management services with advanced features, spam protection, and 24/7 support to keep your business communications running smoothly.",
+      "image": "/images/sections/services/service-5.jpg",
+      "service_image": "/images/sections/services/service-5.jpg",
+      "thumbnail": "/images/sections/services/service-5.jpg",
+      "icon": "email"
+    },
+    {
+      "id": 6,
+      "name": "Click IT Cloud",
+      "service_name": "Click IT Cloud",
+      "slug": "click-it-cloud",
+      "description": "Scalable cloud hosting and infrastructure services for your applications, data storage, and business operations with high availability and performance.",
+      "service_description": "Scalable cloud hosting and infrastructure services for your applications, data storage, and business operations with high availability and performance.",
+      "image": "/images/sections/services/service-6.jpg",
+      "service_image": "/images/sections/services/service-6.jpg",
+      "thumbnail": "/images/sections/services/service-6.jpg",
+      "icon": "cloud"
+    },
+    {
+      "id": 7,
+      "name": "Click IT Connect",
+      "service_name": "Click IT Connect",
+      "slug": "click-it-connect",
+      "description": "Fast, dependable Wi-Fi setup, network installation, and optimization for homes and offices to ensure reliable connectivity for all your devices.",
+      "service_description": "Fast, dependable Wi-Fi setup, network installation, and optimization for homes and offices to ensure reliable connectivity for all your devices.",
+      "image": "/images/sections/services/service-7.jpg",
+      "service_image": "/images/sections/services/service-7.jpg",
+      "thumbnail": "/images/sections/services/service-7.jpg",
+      "icon": "network"
+    },
+    {
+      "id": 8,
+      "name": "Click IT Repairs",
+      "service_name": "Click IT Repairs",
+      "slug": "click-it-repairs",
+      "description": "Professional hardware repair and maintenance services for computers, laptops, printers, and other IT equipment with quick turnaround times.",
+      "service_description": "Professional hardware repair and maintenance services for computers, laptops, printers, and other IT equipment with quick turnaround times.",
+      "image": "/images/sections/services/service-8.jpg",
+      "service_image": "/images/sections/services/service-8.jpg",
+      "thumbnail": "/images/sections/services/service-8.jpg",
+      "icon": "repair"
+    }
+  ]
+}
+

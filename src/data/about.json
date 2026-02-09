@@ -1,0 +1,36 @@
+{
+  "title": "About Us",
+  "description": "Learn more about ClickItCo and our mission",
+  "sections": [
+    {
+      "id": 1,
+      "title": "Our Story",
+      "content": "We started with a vision to revolutionize digital experiences."
+    },
+    {
+      "id": 2,
+      "title": "Our Mission",
+      "content": "To provide exceptional digital solutions that drive success."
+    },
+    {
+      "id": 3,
+      "title": "Our Values",
+      "content": "Innovation, integrity, and excellence guide everything we do."
+    }
+  ],
+  "team": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "role": "CEO",
+      "bio": "Visionary leader with 20+ years of experience"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "role": "CTO",
+      "bio": "Tech enthusiast driving innovation"
+    }
+  ]
+}
+

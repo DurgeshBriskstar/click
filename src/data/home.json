@@ -1,0 +1,635 @@
+{
+  "hero": {
+    "title": "data.json",
+    "subtitle": "Get fast, secure, and professional IT services delivered in a productised, easy-to-order format. From security to networking to managed IT support—Click IT keeps your digital world running smoothly.",
+    "searchPlaceholder": "Search a service...",
+    "quickFilters": [
+      "Click IT E-marketing",
+      "Click IT Computers",
+      "Click IT Phone",
+      "Click IT Cloud",
+      "Click IT Repairs"
+    ],
+    "services": [
+      {
+        "id": 1,
+        "title": "Click IT Phone",
+        "icon": "phone",
+        "image": "/images/hero/service-phone.png"
+      },
+      {
+        "id": 2,
+        "title": "Click IT Computers",
+        "icon": "computer",
+        "image": "/images/hero/service-computers.png"
+      },
+      {
+        "id": 3,
+        "title": "Click IT Secure",
+        "icon": "security",
+        "image": "/images/hero/service-secure.png"
+      },
+      {
+        "id": 4,
+        "title": "Click IT E-marketing",
+        "icon": "marketing",
+        "image": "/images/hero/service-marketing.png"
+      },
+      {
+        "id": 5,
+        "title": "Click IT Connect",
+        "icon": "network",
+        "image": "/images/hero/service-connect.png"
+      },
+      {
+        "id": 6,
+        "title": "Click IT Repairs",
+        "icon": "repair",
+        "image": "/images/hero/service-repairs.png"
+      },
+      {
+        "id": 7,
+        "title": "Click IT Email",
+        "icon": "email",
+        "image": "/images/hero/service-email.png"
+      },
+      {
+        "id": 8,
+        "title": "Click IT Cloud",
+        "icon": "cloud",
+        "image": "/images/hero/service-cloud.png"
+      }
+    ],
+    "wavePattern": "/images/decorative/wave-pattern.png"
+  },
+  "scrollingSliders": {
+    "title": "Our Services",
+    "items": [
+      {
+        "id": 1,
+        "title": "Managed IT Support",
+        "description": "Comprehensive IT support services for your business",
+        "image": "/images/sections/services/service-1.png"
+      },
+      {
+        "id": 2,
+        "title": "Network Security",
+        "description": "Protect your network with advanced security solutions",
+        "image": "/images/sections/services/service-2.png"
+      },
+      {
+        "id": 3,
+        "title": "Cloud Hosting",
+        "description": "Scalable cloud hosting for your applications",
+        "image": "/images/sections/services/service-3.png"
+      },
+      {
+        "id": 4,
+        "title": "Data Backup",
+        "description": "Reliable data backup and recovery services",
+        "image": "/images/sections/services/service-4.png"
+      },
+      {
+        "id": 5,
+        "title": "IT Consulting",
+        "description": "Expert IT consulting for your business needs",
+        "image": "/images/sections/services/service-5.png"
+      },
+      {
+        "id": 6,
+        "title": "Hardware Repair",
+        "description": "Professional hardware repair and maintenance",
+        "image": "/images/sections/services/service-6.png"
+      },
+      {
+        "id": 7,
+        "title": "Software Solutions",
+        "description": "Custom software solutions for your business",
+        "image": "/images/sections/services/service-7.png"
+      },
+      {
+        "id": 8,
+        "title": "Cybersecurity",
+        "description": "Advanced cybersecurity protection",
+        "image": "/images/sections/services/service-8.png"
+      }
+    ]
+  },
+  "productisedCategories": {
+    "title": "Explore Our Productised IT Service Categories",
+    "subtitle": "Discover expertly built IT services that help you stay secure, connected, and productive. Easy to understand. Easy to order. Easy to scale.",
+    "categories": [
+      {
+        "id": 1,
+        "title": "IT Security & Data Protection",
+        "description": "Protect your devices and data with cybersecurity, backup solutions, and threat monitoring.",
+        "icon": "security",
+        "image": "/images/sections/categories/category-1.jpg"
+      },
+      {
+        "id": 2,
+        "title": "Managed IT Support",
+        "description": "Proactive monitoring, helpdesk support, and complete IT management for small businesses.",
+        "icon": "support",
+        "image": "/images/sections/categories/category-2.jpg"
+      },
+      {
+        "id": 3,
+        "title": " Secure Networking",
+        "description": "Fast, dependable Wi-Fi setup, network installation, and optimization for homes and offices.",
+        "icon": "network",
+        "image": "/images/sections/categories/category-3.jpg"
+      },
+      {
+        "id": 4,
+        "title": "Email & Cloud Hosting",
+        "description": "Secure, high-performance email and cloud services designed for reliability and productivity.",
+        "icon": "cloud",
+        "image": "/images/sections/categories/category-4.jpg"
+      }
+    ]
+  },
+  "gettingStarted": {
+    "title": "Getting Started Is Easy",
+    "subtitle": "Follow these simple steps to get your IT services up and running",
+    "steps": [
+      {
+        "id": 1,
+        "number": "1",
+        "title": "Simple, Transparent, Productised IT Services",
+        "description": "Browse our marketplace and select the service that fits your needs.",
+        "image": "/images/sections/gettingstarted/step-1.jpg"
+      },
+      {
+        "id": 2,
+        "number": "2",
+        "title": "Book Online or Visit a Location",
+        "description": "Order instantly or connect with a nearby Click IT store for personalized support.",
+        "image": "/images/sections/gettingstarted/step-2.jpg"
+      },
+      {
+        "id": 3,
+        "number": "3",
+        "title": "Get Certified Expertise",
+        "description": "Our trained technicians deliver your service with precision, speed, and professional standards.",
+        "image": "/images/sections/gettingstarted/step-3.jpg"
+      }
+    ]
+  },
+  "aboutUs": {
+    "title": "About US",
+    "subtitle": "A leading full-service IT and managed services provider, dedicated to ensuring the ongoing health of organizations' IT systems through 24/7/365 monitoring and support.",
+    "stats": [
+      {
+        "id": 1,
+        "icon": "people",
+        "value": "About Our Company",
+        "label": "We provide end-to-end IT and managed services, ensuring system reliability and long-term business growth.",
+        "cta": "Explore More"
+      },
+      {
+        "id": 2,
+        "icon": "services",
+        "value": "30+",
+        "label": "14 Categories of IT Services",
+        "image": "/images/sections/aboutus/stat-2.svg"
+      },
+      {
+        "id": 3,
+        "icon": "certified",
+        "value": "Microsoft",
+        "label": "Microsoft Certified Partner",
+        "image": "/images/sections/aboutus/stat-3.svg"
+      },
+      {
+        "id": 4,
+        "icon": "years",
+        "value": "2012",
+        "label": "Successfully Working Since 2012",
+        "image": "/images/sections/aboutus/stat-4.svg"
+      }
+    ],
+    "partners": [
+      "HP",
+      "Dell",
+      "Asus",
+      "Microsoft",
+      "Apple",
+      "Samsung"
+    ]
+  },
+  "trustedPartner": {
+    "title": "Your trusted neighbourhood tech partner",
+    "subtitle": "When your tech fails or your IT hits a snag, ITS steps in. Stay calm and find a service point near you.",
+    "ctaText": "Find a store"
+  },
+  "techInGoodHands": {
+    "title": "Your tech is in good hands",
+    "description": "Our local experts have completed 21 million+ repairs, and they can help you too, whether you need a fix, setup, accessories, or even a cleaning for your phone or game console.",
+    "phone": "+980 (396) 980",
+    "email": "info@clickitco.com",
+    "achievements": [
+      {
+        "id": 1,
+        "value": "2500+",
+        "label": "Works Completed"
+      },
+      {
+        "id": 2,
+        "value": "2012",
+        "label": "Successfully Working Since"
+      }
+    ]
+  },
+  "services": {
+    "title": "Our Services",
+    "items": [
+      {
+        "id": 1,
+        "number": "01",
+        "title": "Click IT Computers",
+        "description": "Comprehensive computer services and support",
+        "href": "/services/computers",
+        "services": [
+          "Managed IT Support",
+          "Consulting & IT Managed Solutions",
+          "Hardware, Software & Peripherals",
+          "IT Support & Helpdesk",
+          "IT Infrastructure & Network"
+        ],
+        "ctaText": "Book An Appointment",
+        "expanded": true
+      },
+      {
+        "id": 2,
+        "number": "02",
+        "title": "Click IT Website Design",
+        "description": "Professional website design and development",
+        "href": "/services/website-design",
+        "services": [],
+        "ctaText": "Book An Appointment",
+        "expanded": false
+      },
+      {
+        "id": 3,
+        "number": "03",
+        "title": "Click IT Secure",
+        "description": "Advanced security solutions for your business",
+        "href": "/services/secure",
+        "services": [],
+        "ctaText": "Book An Appointment",
+        "expanded": false
+      },
+      {
+        "id": 4,
+        "number": "04",
+        "title": "Click IT Phones",
+        "description": "Phone system solutions and support",
+        "href": "/services/phones",
+        "services": [],
+        "ctaText": "Book An Appointment",
+        "expanded": false
+      },
+      {
+        "id": 5,
+        "number": "05",
+        "title": "Click IT Email",
+        "description": "Email hosting and management services",
+        "href": "/services/email",
+        "services": [],
+        "ctaText": "Book An Appointment",
+        "expanded": false
+      }
+    ]
+  },
+  "franchise": {
+    "title": "Franchise Opportunity",
+    "description": "Partner with a proven IT service brand and build a scalable, high-demand business with full support and a powerful service model.",
+    "benefits": [
+      "Proven IT business model",
+      "Full training & ongoing support",
+      "Multiple revenue streams",
+      "Strong brand credibility",
+      "Low investment, high ROI"
+    ],
+    "ctaText": "Unlock Franchise Advantages",
+    "stats": {
+      "value": "2500+",
+      "label": "Managed Clients"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "id": 1,
+        "question": "What services do you offer?",
+        "answer": "We offer a comprehensive range of IT services including managed IT support, cybersecurity, cloud hosting, network security, hardware and software solutions, and much more. Our services are designed to meet the diverse needs of businesses of all sizes.",
+        "expanded": true
+      },
+      {
+        "id": 2,
+        "question": "Do you offer on-site support?",
+        "answer": "Yes, we provide both on-site and remote support services. Our team can visit your location when needed or assist you remotely for faster resolution.",
+        "expanded": false
+      },
+      {
+        "id": 3,
+        "question": "What are your operating hours?",
+        "answer": "We operate Monday through Friday from 9 AM to 6 PM, and we also offer emergency support services outside regular hours for critical issues.",
+        "expanded": false
+      },
+      {
+        "id": 4,
+        "question": "Do you provide remote support?",
+        "answer": "Yes, we offer comprehensive remote support services that allow us to assist you quickly and efficiently without needing to be on-site.",
+        "expanded": false
+      },
+      {
+        "id": 5,
+        "question": "What is your pricing?",
+        "answer": "Our pricing varies based on the services you need. We offer flexible pricing plans and can provide a custom quote based on your specific requirements. Contact us for more details.",
+        "expanded": false
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "subtitle": "First impressions matter — especially in creative industries where your portfolio often speaks before you do.",
+    "rating": "5.0",
+    "reviews": [
+      {
+        "id": 1,
+        "quote": "Our consultants offer top-notch advice and technical support, working closely with your organization to ensure a comprehensive understanding of your needs.",
+        "name": "Kevin Drye",
+        "role": "Medical Assistant",
+        "rating": 4.2,
+        "avatar": "KD",
+        "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 2,
+        "quote": "Our consultants offer top-notch advice and technical support, working closely with your organization to ensure a comprehensive understanding of your needs.",
+        "name": "Sandra Bontempo",
+        "role": "Free Range SkinCare",
+        "rating": 5.0,
+        "avatar": "SB",
+        "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 3,
+        "quote": "ClickItCo has transformed our business operations. Their expertise in IT solutions is unmatched, and their team is always available when we need them.",
+        "name": "Peggy Martines",
+        "role": "Free Range SkinCare",
+        "rating": 5.0,
+        "avatar": "PM",
+        "avatarUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+        "featured": true,
+        "image": "https://images.unsplash.com/photo-1556745757-8d76bdb6984b?w=400&h=300&fit=crop"
+      },
+      {
+        "id": 4,
+        "quote": "Our consultants offer top-notch advice and technical support, working closely with your organization to ensure a comprehensive understanding of your needs.",
+        "name": "Sheree",
+        "role": "Gravely Group",
+        "rating": 5.0,
+        "avatar": "SH",
+        "avatarUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 5,
+        "quote": "Our consultants offer top-notch advice and technical support, working closely with your organization to ensure a comprehensive understanding of your needs.",
+        "name": "Emma Wilson",
+        "role": "Tech Solutions",
+        "rating": 4.8,
+        "avatar": "EW",
+        "avatarUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 6,
+        "quote": "ClickItCo has been an invaluable partner for our business. Their IT support is always prompt and professional. We couldn't be happier with their services.",
+        "name": "David Chen",
+        "role": "Operations Manager, DataFlow",
+        "rating": 5.0,
+        "avatar": "DC",
+        "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 7,
+        "quote": "The team at ClickItCo understands our needs and delivers solutions that truly work. Highly recommended! Their expertise has saved us time and money.",
+        "name": "Lisa Anderson",
+        "role": "VP of Technology, CloudSync",
+        "rating": 4.9,
+        "avatar": "LA",
+        "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 8,
+        "quote": "Exceptional service from start to finish. ClickItCo helped us modernize our IT infrastructure and the results have been outstanding. Great team to work with!",
+        "name": "Robert Martinez",
+        "role": "Founder, StartupHub",
+        "rating": 5.0,
+        "avatar": "RM",
+        "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 9,
+        "quote": "Professional, reliable, and always available. ClickItCo has become an essential part of our business operations. Their support team is second to none.",
+        "name": "Jennifer Lee",
+        "role": "Director of IT, FinanceCorp",
+        "rating": 4.7,
+        "avatar": "JL",
+        "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 10,
+        "quote": "We've been working with ClickItCo for over two years and they continue to exceed our expectations. Their proactive approach to IT management is impressive.",
+        "name": "James Thompson",
+        "role": "CEO, RetailMax",
+        "rating": 5.0,
+        "avatar": "JT",
+        "avatarUrl": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 11,
+        "quote": "ClickItCo's expertise in cybersecurity has given us peace of mind. Their team is knowledgeable, responsive, and always willing to go the extra mile.",
+        "name": "Maria Garcia",
+        "role": "Security Officer, HealthCare Plus",
+        "rating": 4.9,
+        "avatar": "MG",
+        "avatarUrl": "https://images.unsplash.com/photo-1491349174775-aaafddd81942?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 12,
+        "quote": "The best IT service provider we've ever worked with. ClickItCo's solutions are innovative, cost-effective, and perfectly tailored to our needs.",
+        "name": "Thomas Wright",
+        "role": "CTO, Innovation Labs",
+        "rating": 5.0,
+        "avatar": "TW",
+        "avatarUrl": "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 13,
+        "quote": "Outstanding service and support. They've helped us streamline our IT operations significantly. The team is professional, responsive, and truly understands our business needs.",
+        "name": "Amanda Foster",
+        "role": "IT Manager, GreenTech Solutions",
+        "rating": 4.8,
+        "avatar": "AF",
+        "avatarUrl": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 14,
+        "quote": "ClickItCo transformed our IT infrastructure completely. Their cloud migration services were seamless and their ongoing support is exceptional. Highly recommended!",
+        "name": "Christopher Park",
+        "role": "Director of Operations, MediaWorks",
+        "rating": 5.0,
+        "avatar": "CP",
+        "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        "id": 15,
+        "quote": "Reliable, professional, and cost-effective. ClickItCo has been our trusted IT partner for three years. Their team always goes above and beyond.",
+        "name": "Rachel Kim",
+        "role": "VP of Operations, TechStart Inc",
+        "rating": 4.9,
+        "avatar": "RK",
+        "avatarUrl": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face"
+      }
+    ]
+  },
+  "stores": {
+    "title": "Select Nearest Store",
+    "subtitle": "Find a ClickItCo location near you",
+    "selectedStore": {
+      "id": 1,
+      "name": "Downtown Location",
+      "address": "123 Main Street, Downtown, City, State 12345",
+      "phone": "+1 (555) 123-4567"
+    },
+    "stores": [
+      {
+        "id": 1,
+        "name": "Click IT Of Marietta",
+        "address": "2470 Windy Hill Rd SE Suite 113, GA 30067",
+        "phone": "+1 (555) 123-4567",
+        "lat": 33.9137,
+        "lng": -84.5203,
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=200&fit=crop",
+        "selected": true
+      },
+      {
+        "id": 2,
+        "name": "Click IT Idaho Hailey",
+        "address": "314 S River St, Hailey, ID 83333",
+        "phone": "+1 (555) 234-5678",
+        "lat": 43.5196,
+        "lng": -114.3153,
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=200&fit=crop",
+        "selected": false
+      },
+      {
+        "id": 3,
+        "name": "Click IT Computer Services - Chagrin Falls, Ohio",
+        "address": "16 S Main St Suite C, Chagrin Falls, OH 44022",
+        "phone": "+1 (555) 345-6789",
+        "lat": 41.4306,
+        "lng": -81.3919,
+        "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?w=400&h=200&fit=crop",
+        "selected": false
+      },
+      {
+        "id": 4,
+        "name": "Click IT Of Miami, FL",
+        "address": "10022 NW 7th St, Miami, FL 33172",
+        "phone": "+1 (555) 456-7890",
+        "lat": 25.7823,
+        "lng": -80.3569,
+        "image": "https://images.unsplash.com/photo-1535957998253-26ae1ef29506?w=400&h=200&fit=crop",
+        "selected": false
+      },
+      {
+        "id": 5,
+        "name": "Click IT Of Pleasant Grove",
+        "address": "661 W State St Suite B, Pleasant Grove, UT 84062",
+        "phone": "+1 (555) 567-8901",
+        "lat": 40.3641,
+        "lng": -111.7386,
+        "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop",
+        "selected": false
+      }
+    ]
+  },
+  "quickTrusted": {
+    "title": "Quick, Trusted, and Professional IT Solutions Online",
+    "description": "Get the IT support you need quickly and efficiently. Our online platform makes it easy to access professional IT services whenever you need them.",
+    "ctaText": "Learn More"
+  },
+  "insights": {
+    "title": "New Insights",
+    "posts": [
+      {
+        "id": 1,
+        "date": "November 1, 2023",
+        "title": "How Managed IT Services Boost Business Efficiency",
+        "excerpt": "Discover how managed IT services can transform your business operations and improve efficiency.",
+        "image": "insight1"
+      },
+      {
+        "id": 2,
+        "date": "October 25, 2023",
+        "title": "Cybersecurity Best Practices for Small Businesses",
+        "excerpt": "Learn essential cybersecurity practices to protect your small business from threats.",
+        "image": "insight2"
+      },
+      {
+        "id": 3,
+        "date": "October 18, 2023",
+        "title": "Cloud Migration: A Complete Guide",
+        "excerpt": "Everything you need to know about migrating your business to the cloud.",
+        "image": "insight3"
+      }
+    ]
+  },
+  "ourPartners": {
+    "title": "Our Partners",
+    "subtitle": "",
+    "partners": [
+      {
+        "id": 1,
+        "name": "HP",
+        "logo": "/images/sections/ourpartners/hp.png",
+        "alt": "HP Logo"
+      },
+      {
+        "id": 2,
+        "name": "Dell",
+        "logo": "/images/sections/ourpartners/dell.png",
+        "alt": "Dell Logo"
+      },
+      {
+        "id": 3,
+        "name": "ASUS",
+        "logo": "/images/sections/ourpartners/asus.png",
+        "alt": "ASUS Logo"
+      },
+      {
+        "id": 4,
+        "name": "Microsoft",
+        "logo": "/images/sections/ourpartners/microsoft.png",
+        "alt": "Microsoft Logo"
+      },
+      {
+        "id": 5,
+        "name": "Apple",
+        "logo": "/images/sections/ourpartners/apple.png",
+        "alt": "Apple Logo"
+      },
+      {
+        "id": 6,
+        "name": "Samsung",
+        "logo": "/images/sections/ourpartners/samsung.png",
+        "alt": "Samsung Logo"
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+/* Bootstrap CSS */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Custom Styles */
+@import "./style.css";
+
+/* Responsive Styles */
+@import "./responsive.css";
+
+/* ============================================
+   AOS Animation Styles - Hydration Safe
+   ============================================ */
+
+/* Before AOS initializes, keep elements visible to prevent hydration issues */
+[data-aos]:not(.aos-init) {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* When AOS initializes but hasn't animated yet, hide elements (AOS default behavior) */
+[data-aos].aos-init:not(.aos-animate) {
+    opacity: 0;
+}
+
+/* When AOS animates, show elements */
+[data-aos].aos-init.aos-animate {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Fallback: If AOS doesn't animate after 3 seconds, show elements anyway */
+@keyframes aos-fallback-show {
+    to {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+[data-aos].aos-init:not(.aos-animate) {
+    animation: aos-fallback-show 0.3s ease-out 3s forwards;
+}

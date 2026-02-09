@@ -1,0 +1,52 @@
+/* ============================================
+   SweetAlert2 Custom Dialog Styles (Global)
+   ============================================ */
+
+.swal2-container .swal2-popup {
+  padding: 20px 24px !important;
+  border-radius: 12px !important;
+  max-width: 444px !important;
+}
+
+.swal2-title,
+.swal-custom-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  margin: 0 !important;
+  padding: 0 0 10px 0 !important;
+  color: #2B3445 !important;
+}
+
+.swal2-html-container {
+  padding: 0px !important;
+  margin: 0 !important;
+}
+
+.swal2-html-container p {
+  padding: 0px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  text-align: left;
+  color: #4B566B;
+}
+
+.muiStack-root {
+  width: 100%;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.muiStack-root .primary-btn {
+  background: #E94560;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  min-width: 64px;
+  padding: 6px 16px;
+}
+
+.swal2-actions {
+  display: none !important;
+}
