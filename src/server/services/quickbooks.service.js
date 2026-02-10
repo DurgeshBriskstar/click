@@ -17,12 +17,26 @@ const OAUTH_BASE_URL = {
 const TOKEN_URL = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer";
 
 /**
- * Get QuickBooks connection for a user
+ * Get all QuickBooks connections for a user (one per company)
  */
-export async function getQuickBooksConnection(userId) {
+export async function getQuickBooksConnections(userId) {
     const mdl = ensureModel(quickbooksModel, "quickbooks_connections");
-    return await mdl.findUnique({
-        where: { user_id: Number(userId) }
+    return await mdl.findMany({
+        where: { user_id: Number(userId) },
+        orderBy: { company_name: "asc" }
+    });
+}
+
+/**
+ * Get QuickBooks connection for a user by realm (company) id
+ */
+export async function getQuickBooksConnectionByRealmId(userId, realmId) {
+    const mdl = ensureModel(quickbooksModel, "quickbooks_connections");
+    return await mdl.findFirst({
+        where: {
+            user_id: Number(userId),
+            realm_id: String(realmId)
+        }
     });
 }
 
@@ -44,15 +58,23 @@ export async function saveQuickBooksConnection({ userId, realmId, companyName, a
         environment: environment
     };
 
-    return await mdl.upsert({
-        where: { user_id: Number(userId) },
-        create: {
+    const existing = await mdl.findFirst({
+        where: {
+            user_id: Number(userId),
+            realm_id: String(realmId)
+        }
+    });
+
+    if (existing) {
+        return await mdl.update({
+            where: { id: existing.id },
+            data: { ...connectionData, updated_at: new Date() }
+        });
+    }
+    return await mdl.create({
+        data: {
             user_id: Number(userId),
             ...connectionData
-        },
-        update: {
-            ...connectionData,
-            updated_at: new Date()
         }
     });
 }
@@ -169,10 +191,10 @@ export async function refreshAccessToken(refreshToken, environment = "sandbox") 
 }
 
 /**
- * Get valid access token (refresh if needed)
+ * Get valid access token (refresh if needed) for a specific company (realm)
  */
-export async function getValidAccessToken(userId) {
-    const connection = await getQuickBooksConnection(userId);
+export async function getValidAccessToken(userId, realmId) {
+    const connection = await getQuickBooksConnectionByRealmId(userId, realmId);
 
     if (!connection) {
         throw new Error("QuickBooks connection not found");
@@ -205,17 +227,17 @@ export async function getValidAccessToken(userId) {
 }
 
 /**
- * Fetch QuickBooks report
+ * Fetch QuickBooks report for a specific company (realm)
  */
-export async function fetchQuickBooksReport(userId, reportType, params = {}) {
+export async function fetchQuickBooksReport(userId, realmId, reportType, params = {}) {
     try {
-        const connection = await getQuickBooksConnection(userId);
+        const connection = await getQuickBooksConnectionByRealmId(userId, realmId);
 
         if (!connection) {
             throw new Error("QuickBooks connection not found");
         }
 
-        const accessToken = await getValidAccessToken(userId);
+        const accessToken = await getValidAccessToken(userId, realmId);
         const baseUrl = QUICKBOOKS_BASE_URL[connection.environment] || QUICKBOOKS_BASE_URL.sandbox;
 
         // Build query string
@@ -249,17 +271,17 @@ export async function fetchQuickBooksReport(userId, reportType, params = {}) {
 }
 
 /**
- * Execute QuickBooks query (e.g. select * from Customer, select * from Item)
+ * Execute QuickBooks query (e.g. select * from Customer, select * from Item) for a specific company (realm)
  */
-export async function fetchQuickBooksQuery(userId, query, params = {}) {
+export async function fetchQuickBooksQuery(userId, realmId, query, params = {}) {
     try {
-        const connection = await getQuickBooksConnection(userId);
+        const connection = await getQuickBooksConnectionByRealmId(userId, realmId);
 
         if (!connection) {
             throw new Error("QuickBooks connection not found");
         }
 
-        const accessToken = await getValidAccessToken(userId);
+        const accessToken = await getValidAccessToken(userId, realmId);
         const baseUrl = QUICKBOOKS_BASE_URL[connection.environment] || QUICKBOOKS_BASE_URL.sandbox;
 
         const queryParams = new URLSearchParams();
@@ -290,12 +312,19 @@ export async function fetchQuickBooksQuery(userId, query, params = {}) {
 }
 
 /**
- * Delete QuickBooks connection
+ * Delete one QuickBooks connection (one company) for a user
  */
-export async function deleteQuickBooksConnection(userId) {
+export async function deleteQuickBooksConnection(userId, realmId) {
     const mdl = ensureModel(quickbooksModel, "quickbooks_connections");
+    const connection = await mdl.findFirst({
+        where: {
+            user_id: Number(userId),
+            realm_id: String(realmId)
+        }
+    });
+    if (!connection) return null;
     return await mdl.delete({
-        where: { user_id: Number(userId) }
+        where: { id: connection.id }
     });
 }
 

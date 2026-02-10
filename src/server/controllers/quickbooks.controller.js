@@ -1,6 +1,6 @@
 import { error, success } from "server/utils/response";
 import { getAuthenticatedUser } from "server/utils/auth";
-import { getOAuthUrl, exchangeCodeForToken, saveQuickBooksConnection, getQuickBooksConnection, fetchQuickBooksReport, fetchQuickBooksQuery, deleteQuickBooksConnection, fetchCompanyInfo } from "server/services/quickbooks.service";
+import { getOAuthUrl, exchangeCodeForToken, saveQuickBooksConnection, getQuickBooksConnections, getQuickBooksConnectionByRealmId, fetchQuickBooksReport, fetchQuickBooksQuery, deleteQuickBooksConnection, fetchCompanyInfo } from "server/services/quickbooks.service";
 
 export const QuickBooksController = {
     async initiateOAuth(req) {
@@ -94,7 +94,7 @@ export const QuickBooksController = {
             // Fetch company name from QuickBooks
             const companyName = await fetchCompanyInfo(tokenData.access_token, realmId, environment);
 
-            // Save connection
+            // Save connection (creates new row for new company, updates for same company)
             await saveQuickBooksConnection({
                 userId: userId,
                 realmId: realmId,
@@ -108,13 +108,16 @@ export const QuickBooksController = {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://127.0.0.1:3007';
             return Response.redirect(`${baseUrl}/admin/dashboard?quickbooks_success=connected`);
         } catch (err) {
-            console.error("QuickBooks callback error:", err);
-            return Response.redirect(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://127.0.0.1:3007'}/login?quickbooks_error=${encodeURIComponent(err.message)}`);
+            console.error("QuickBooks callback error:", err?.message || err);
+            if (err?.code === "P2002" || err?.message?.includes("Unique constraint") || err?.message?.includes("Duplicate entry")) {
+                return Response.redirect(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://127.0.0.1:3007'}/login?quickbooks_error=${encodeURIComponent("Database does not allow multiple companies yet. Run the QuickBooks migration (see prisma/migrations/allow_multiple_quickbooks_companies.sql).")}`);
+            }
+            return Response.redirect(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://127.0.0.1:3007'}/login?quickbooks_error=${encodeURIComponent(err.message || "Connection failed")}`);
         }
     },
 
     /**
-     * Get connection status
+     * Get connection status – returns list of connected companies
      */
     async getConnectionStatus(req) {
         try {
@@ -123,27 +126,30 @@ export const QuickBooksController = {
                 return error("Unauthorized", 401);
             }
 
-            // Ensure userId is a number
             const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+            const connections = await getQuickBooksConnections(userId);
 
-            const connection = await getQuickBooksConnection(userId);
-
-            if (!connection) {
+            if (!connections || connections.length === 0) {
                 return success({
                     data: {
                         connected: false,
-                        message: "Not connected to QuickBooks"
+                        message: "Not connected to QuickBooks",
+                        companies: []
                     }
                 });
             }
 
+            const companies = connections.map((c) => ({
+                realmId: c.realm_id,
+                companyName: c.company_name ?? null,
+                environment: c.environment,
+                expiresAt: c.access_token_expires
+            }));
+
             return success({
                 data: {
                     connected: true,
-                    realmId: connection.realm_id,
-                    companyName: connection.company_name ?? null,
-                    environment: connection.environment,
-                    expiresAt: connection.access_token_expires
+                    companies
                 }
             });
         } catch (err) {
@@ -153,7 +159,7 @@ export const QuickBooksController = {
     },
 
     /**
-     * Get Profit and Loss report
+     * Get Profit and Loss report for a company (realmId required if user has multiple companies)
      */
     async getProfitAndLoss(req) {
         try {
@@ -162,20 +168,24 @@ export const QuickBooksController = {
                 return error("Unauthorized", 401);
             }
 
-            // Ensure userId is a number
             const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
-
             const { searchParams } = new URL(req.url);
+            const realmId = searchParams.get("realmId");
             const startDate = searchParams.get("startDate");
             const endDate = searchParams.get("endDate");
             const minorversion = searchParams.get("minorversion") || "65";
+
+            const resolvedRealmId = await resolveRealmId(userId, realmId);
+            if (!resolvedRealmId) {
+                return error("QuickBooks company not selected or not connected", 400);
+            }
 
             const params = {};
             if (startDate) params.startDate = startDate;
             if (endDate) params.endDate = endDate;
             params.minorversion = minorversion;
 
-            const report = await fetchQuickBooksReport(userId, "ProfitAndLoss", params);
+            const report = await fetchQuickBooksReport(userId, resolvedRealmId, "ProfitAndLoss", params);
 
             return success({
                 data: {
@@ -189,7 +199,7 @@ export const QuickBooksController = {
     },
 
     /**
-     * Get QuickBooks Customers (query select * from Customer)
+     * Get QuickBooks Customers for a company (realmId required if user has multiple companies)
      */
     async getCustomers(req) {
         try {
@@ -200,9 +210,15 @@ export const QuickBooksController = {
 
             const userId = typeof user.id === "string" ? parseInt(user.id, 10) : user.id;
             const { searchParams } = new URL(req.url);
+            const realmId = searchParams.get("realmId");
             const minorversion = searchParams.get("minorversion") || "65";
 
-            const result = await fetchQuickBooksQuery(userId, "select * from Customer", { minorversion });
+            const resolvedRealmId = await resolveRealmId(userId, realmId);
+            if (!resolvedRealmId) {
+                return error("QuickBooks company not selected or not connected", 400);
+            }
+
+            const result = await fetchQuickBooksQuery(userId, resolvedRealmId, "select * from Customer", { minorversion });
             const customers = result?.QueryResponse?.Customer || [];
             const totalCount = result?.QueryResponse?.totalCount ?? customers.length;
 
@@ -217,7 +233,7 @@ export const QuickBooksController = {
     },
 
     /**
-     * Get QuickBooks Products/Items (query select * from Item)
+     * Get QuickBooks Products/Items for a company (realmId required if user has multiple companies)
      */
     async getProducts(req) {
         try {
@@ -228,9 +244,15 @@ export const QuickBooksController = {
 
             const userId = typeof user.id === "string" ? parseInt(user.id, 10) : user.id;
             const { searchParams } = new URL(req.url);
+            const realmId = searchParams.get("realmId");
             const minorversion = searchParams.get("minorversion") || "65";
 
-            const result = await fetchQuickBooksQuery(userId, "select * from Item", { minorversion });
+            const resolvedRealmId = await resolveRealmId(userId, realmId);
+            if (!resolvedRealmId) {
+                return error("QuickBooks company not selected or not connected", 400);
+            }
+
+            const result = await fetchQuickBooksQuery(userId, resolvedRealmId, "select * from Item", { minorversion });
             const items = result?.QueryResponse?.Item || [];
             const totalCount = result?.QueryResponse?.totalCount ?? items.length;
 
@@ -245,7 +267,7 @@ export const QuickBooksController = {
     },
 
     /**
-     * Disconnect QuickBooks
+     * Disconnect one QuickBooks company (realmId required)
      */
     async disconnect(req) {
         try {
@@ -254,13 +276,18 @@ export const QuickBooksController = {
                 return error("Unauthorized", 401);
             }
 
-            // Ensure userId is a number
             const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+            const { searchParams } = new URL(req.url);
+            const realmId = searchParams.get("realmId");
 
-            await deleteQuickBooksConnection(userId);
+            if (!realmId) {
+                return error("realmId is required to disconnect a company", 400);
+            }
+
+            await deleteQuickBooksConnection(userId, realmId);
 
             return success({
-                message: "QuickBooks disconnected successfully",
+                message: "QuickBooks company disconnected successfully",
                 data: null
             });
         } catch (err) {
@@ -269,4 +296,17 @@ export const QuickBooksController = {
         }
     }
 };
+
+/**
+ * Resolve realmId: use provided realmId if valid, otherwise use sole connection for the user
+ */
+async function resolveRealmId(userId, realmId) {
+    const connections = await getQuickBooksConnections(userId);
+    if (!connections?.length) return null;
+    if (realmId) {
+        const found = connections.find((c) => c.realm_id === realmId);
+        return found ? found.realm_id : null;
+    }
+    return connections.length === 1 ? connections[0].realm_id : null;
+}
 

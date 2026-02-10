@@ -57,11 +57,13 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
             // Check connection status
             const statusResponse = await secureAxiosInstance.get("/quickbooks/status");
 
-            if (statusResponse?.data?.success && statusResponse?.data?.data?.connected) {
+            if (statusResponse?.data?.success && statusResponse?.data?.data?.connected && statusResponse?.data?.data?.companies?.length > 0) {
                 setIsConnected(true);
+                const companies = statusResponse.data.data.companies;
+                const realmId = companies[0]?.realmId;
 
-                // Fetch Profit and Loss report
-                const reportResponse = await secureAxiosInstance.get("/quickbooks/reports/profit-loss?minorversion=65");
+                // Fetch Profit and Loss report for first company
+                const reportResponse = await secureAxiosInstance.get(`/quickbooks/reports/profit-loss?minorversion=65${realmId ? `&realmId=${encodeURIComponent(realmId)}` : ""}`);
 
                 if (reportResponse?.data?.success && reportResponse?.data?.data?.report) {
                     const report = reportResponse.data.data.report;
