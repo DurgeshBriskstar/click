@@ -132,6 +132,7 @@ model quickbooks_connections {
   id                   Int      @id @default(autoincrement()) @db.UnsignedInt
   user_id              Int      @unique(map: "unique_user_quickbooks") @db.UnsignedInt
   realm_id             String   @db.VarChar(100)
+  company_name         String?  @db.VarChar(255)
   access_token         String   @db.Text
   refresh_token        String   @db.Text
   access_token_expires DateTime @db.Timestamp(0)

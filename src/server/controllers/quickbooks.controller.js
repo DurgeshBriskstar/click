@@ -1,6 +1,6 @@
 import { error, success } from "server/utils/response";
 import { getAuthenticatedUser } from "server/utils/auth";
-import { getOAuthUrl, exchangeCodeForToken, saveQuickBooksConnection, getQuickBooksConnection, fetchQuickBooksReport, fetchQuickBooksQuery, deleteQuickBooksConnection } from "server/services/quickbooks.service";
+import { getOAuthUrl, exchangeCodeForToken, saveQuickBooksConnection, getQuickBooksConnection, fetchQuickBooksReport, fetchQuickBooksQuery, deleteQuickBooksConnection, fetchCompanyInfo } from "server/services/quickbooks.service";
 
 export const QuickBooksController = {
     async initiateOAuth(req) {
@@ -91,10 +91,14 @@ export const QuickBooksController = {
 
             const environment = "sandbox"; // You can determine this from the request
 
+            // Fetch company name from QuickBooks
+            const companyName = await fetchCompanyInfo(tokenData.access_token, realmId, environment);
+
             // Save connection
             await saveQuickBooksConnection({
                 userId: userId,
                 realmId: realmId,
+                companyName: companyName ?? undefined,
                 accessToken: tokenData.access_token,
                 refreshToken: tokenData.refresh_token,
                 expiresIn: tokenData.expires_in || 3600,
@@ -137,6 +141,7 @@ export const QuickBooksController = {
                 data: {
                     connected: true,
                     realmId: connection.realm_id,
+                    companyName: connection.company_name ?? null,
                     environment: connection.environment,
                     expiresAt: connection.access_token_expires
                 }

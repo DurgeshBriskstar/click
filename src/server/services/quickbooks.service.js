@@ -29,31 +29,62 @@ export async function getQuickBooksConnection(userId) {
 /**
  * Save or update QuickBooks connection
  */
-export async function saveQuickBooksConnection({ userId, realmId, accessToken, refreshToken, expiresIn, environment = "sandbox" }) {
+export async function saveQuickBooksConnection({ userId, realmId, companyName, accessToken, refreshToken, expiresIn, environment = "sandbox" }) {
     const mdl = ensureModel(quickbooksModel, "quickbooks_connections");
 
     // Calculate expiration time (expiresIn is in seconds)
     const accessTokenExpires = new Date(Date.now() + (expiresIn * 1000));
 
+    const connectionData = {
+        realm_id: realmId,
+        ...(companyName != null && { company_name: companyName }),
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        access_token_expires: accessTokenExpires,
+        environment: environment
+    };
+
     return await mdl.upsert({
         where: { user_id: Number(userId) },
         create: {
             user_id: Number(userId),
-            realm_id: realmId,
-            access_token: accessToken,
-            refresh_token: refreshToken,
-            access_token_expires: accessTokenExpires,
-            environment: environment
+            ...connectionData
         },
         update: {
-            realm_id: realmId,
-            access_token: accessToken,
-            refresh_token: refreshToken,
-            access_token_expires: accessTokenExpires,
-            environment: environment,
+            ...connectionData,
             updated_at: new Date()
         }
     });
+}
+
+/**
+ * Fetch company info (including company name) from QuickBooks
+ */
+export async function fetchCompanyInfo(accessToken, realmId, environment = "sandbox") {
+    try {
+        const baseUrl = QUICKBOOKS_BASE_URL[environment] || QUICKBOOKS_BASE_URL.sandbox;
+        const url = `${baseUrl}/v3/company/${realmId}/companyinfo/${realmId}?minorversion=65`;
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`QuickBooks CompanyInfo error: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+        const companyInfo = data?.CompanyInfo ?? data;
+        return companyInfo?.CompanyName ?? null;
+    } catch (err) {
+        console.error("Error fetching QuickBooks company info:", err);
+        return null;
+    }
 }
 
 /**
@@ -156,10 +187,11 @@ export async function getValidAccessToken(userId) {
         // Token is expired or about to expire, refresh it
         const tokenData = await refreshAccessToken(connection.refresh_token, connection.environment);
 
-        // Update connection with new tokens
+        // Update connection with new tokens (preserve company_name)
         await saveQuickBooksConnection({
             userId,
             realmId: connection.realm_id,
+            companyName: connection.company_name ?? undefined,
             accessToken: tokenData.access_token,
             refreshToken: tokenData.refresh_token || connection.refresh_token,
             expiresIn: tokenData.expires_in,
