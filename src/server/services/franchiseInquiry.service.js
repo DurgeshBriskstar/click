@@ -1,5 +1,6 @@
 import { prisma } from "lib/prismaClient";
 import { ensureModel } from "server/utils/modelGuard";
+import { fetchGhlCustomFields, buildCustomFieldMapsFromApiFields, mapSubmissionKeysToFieldKeys } from "server/services/ghlCustomFields.service";
 
 const userModel = prisma?.users;
 
@@ -68,9 +69,23 @@ export async function getFormSubmissions({ apiKey, page = 1, limit = 20, startAt
         }
 
         const data = await response.json();
+        const rawSubmissions = data?.submissions || [];
+
+        let fieldLabels = {};
+        let submissions = rawSubmissions;
+
+        try {
+            const fields = await fetchGhlCustomFields(apiKey);
+            const { idToFieldKey, fieldKeyToName } = buildCustomFieldMapsFromApiFields(fields);
+            fieldLabels = fieldKeyToName;
+            submissions = rawSubmissions.map((item) => mapSubmissionKeysToFieldKeys(item, idToFieldKey));
+        } catch (e) {
+            console.error("Error resolving franchise custom field labels:", e);
+        }
 
         return {
-            submissions: data?.submissions || [],
+            submissions,
+            fieldLabels,
             meta: data?.meta || { total: 0, currentPage: page, nextPage: null, prevPage: null }
         };
 

@@ -5,7 +5,7 @@ import { StyledTableRow, StyledTableCell } from "components/custom/common/common
 import { formatDateTime } from "utils/formats";
 import ViewDetailsDialog from "./ViewDetailsDialog";
 
-export default function Row({ record }) {
+export default function Row({ record, fieldLabels = {} }) {
     const [open, setOpen] = useState(false);
     const { full_name, email, phone, createdAt } = record;
 
@@ -37,7 +37,7 @@ export default function Row({ record }) {
                 </StyledTableCell>
             </StyledTableRow>
 
-            <ViewDetailsDialog open={open} onClose={handleClose} record={record} />
+            <ViewDetailsDialog open={open} onClose={handleClose} record={record} fieldLabels={fieldLabels} />
         </>
     );
 }

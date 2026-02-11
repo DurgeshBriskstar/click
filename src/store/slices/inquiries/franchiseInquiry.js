@@ -5,6 +5,7 @@ const initialState = {
     count: 0,
     inquiries: [],
     meta: null,
+    fieldLabels: {},
     isLoading: false,
 };
 
@@ -35,11 +36,16 @@ const slice = createSlice({
             state.meta = action.payload;
         },
 
+        setFieldLabels(state, action) {
+            state.fieldLabels = action.payload || {};
+        },
+
         resetInquiries(state) {
             state.isLoading = false;
             state.inquiries = [];
             state.count = 0;
             state.meta = null;
+            state.fieldLabels = {};
         }
     }
 });
@@ -60,6 +66,7 @@ export function getInquiries(params) {
                 dispatch(slice.actions.setInquiries(responseData?.data?.submissions || []));
                 dispatch(slice.actions.setInquiriesCount(responseData?.data?.meta?.total || 0));
                 dispatch(slice.actions.setMeta(responseData?.data?.meta || null));
+                dispatch(slice.actions.setFieldLabels(responseData?.data?.fieldLabels || {}));
                 return Promise.resolve(responseData?.data);
             }
 

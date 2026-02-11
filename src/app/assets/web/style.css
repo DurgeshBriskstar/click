@@ -6766,7 +6766,6 @@ h3 {
   display: flex;
   gap: 60px;
   align-items: center;
-  margin-top: -275px;
 }
 
 .click-it-image-band {
@@ -6783,10 +6782,18 @@ h3 {
   width: 100%;
   justify-content: space-between;
   gap: 60px;
+  position: relative;
+}
+
+.click-it-band-section-img {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .click-it-band-section-content {
   max-width: 786px;
+  margin-bottom: 60px;
 }
 
 @-webkit-keyframes mover {

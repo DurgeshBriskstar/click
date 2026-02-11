@@ -31,7 +31,7 @@ const ListPage = () => {
     const [startAt, setStartAt] = useState(startOfMonth(new Date()));
     const [endAt, setEndAt] = useState(endOfMonth(new Date()));
 
-    const { count, inquiries, meta, isLoading } = useSelector((state) => state?.franchiseInquiry);
+    const { count, inquiries, meta, fieldLabels, isLoading } = useSelector((state) => state?.franchiseInquiry);
     const { user } = useSelector((state) => state?.auth);
 
     useEffect(() => {
@@ -156,7 +156,7 @@ const ListPage = () => {
 
                                     <TableBody>
                                         {inquiries.map((record, index) => (
-                                            <Row key={record.id || index} record={record} />
+                                            <Row key={record.id || index} record={record} fieldLabels={fieldLabels} />
                                         ))}
                                     </TableBody>
                                 </Table>

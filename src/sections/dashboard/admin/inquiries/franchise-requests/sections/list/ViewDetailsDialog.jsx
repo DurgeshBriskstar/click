@@ -1,8 +1,9 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Divider, Stack, Grid, IconButton, } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { formatDateTime } from "utils/formats";
+import { getFieldDisplayLabel } from "utils/ghlFieldLabels";
 
-export default function ViewDetailsDialog({ open, onClose, record }) {
+export default function ViewDetailsDialog({ open, onClose, record, fieldLabels = {} }) {
     if (!record) return null;
 
     const { full_name, email, phone, createdAt, ...otherFields } = record;
@@ -69,7 +70,7 @@ export default function ViewDetailsDialog({ open, onClose, record }) {
                             {otherFieldsArray.map((field, index) => (
                                 <Box key={index}>
                                     <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                        {field.key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                                        {getFieldDisplayLabel(field.key, fieldLabels)}
                                     </Typography>
                                     <Typography variant="body1" fontWeight={500}>
                                         {typeof field.value === 'object' ? JSON.stringify(field.value) : (field.value || "-")}
