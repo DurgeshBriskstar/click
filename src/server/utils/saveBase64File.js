@@ -34,7 +34,7 @@ export async function saveBase64File(
         "image/svg+xml": "svg",
     }[mimeType] || mimeType.split("/")[1] || "bin";
 
-    // Ensure the upload path exists
+    // Ensure the upload path exists (in serverless, PROJECT_UPLOAD_PATH is already /tmp/backend-assets)
     if (!fs.existsSync(PROJECT_UPLOAD_PATH)) {
         fs.mkdirSync(PROJECT_UPLOAD_PATH, { recursive: true });
     }

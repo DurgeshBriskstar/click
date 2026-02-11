@@ -66,7 +66,7 @@ export default function IntroSection({ control, sectionKey, errors }) {
                             <Grid size={{ xs: 12, md: 6 }}>
                                 <CTextField
                                     control={control}
-                                    name={`sections.${sectionKey}.buttonText`}
+                                    name={`sections.${sectionKey}.button1Text`}
                                     label="Button Text"
                                     placeholder="Enter button text"
                                     error={errors.sections?.[sectionKey]?.buttonText}
@@ -75,7 +75,7 @@ export default function IntroSection({ control, sectionKey, errors }) {
                             <Grid size={{ xs: 12, md: 6 }}>
                                 <CTextField
                                     control={control}
-                                    name={`sections.${sectionKey}.buttonLink`}
+                                    name={`sections.${sectionKey}.button1Link`}
                                     label="Button Link"
                                     placeholder="Enter button link"
                                     error={errors.sections?.[sectionKey]?.buttonLink}
@@ -111,7 +111,7 @@ export default function IntroSection({ control, sectionKey, errors }) {
                             <Grid size={{ xs: 12, md: 6 }}>
                                 <CTextField
                                     control={control}
-                                    name={`sections.${sectionKey}.buttonText`}
+                                    name={`sections.${sectionKey}.button2Text`}
                                     label="Button Text"
                                     placeholder="Enter button text"
                                     error={errors.sections?.[sectionKey]?.buttonText}
@@ -120,7 +120,7 @@ export default function IntroSection({ control, sectionKey, errors }) {
                             <Grid size={{ xs: 12, md: 6 }}>
                                 <CTextField
                                     control={control}
-                                    name={`sections.${sectionKey}.buttonLink`}
+                                    name={`sections.${sectionKey}.button2Link`}
                                     label="Button Link"
                                     placeholder="Enter button link"
                                     error={errors.sections?.[sectionKey]?.buttonLink}

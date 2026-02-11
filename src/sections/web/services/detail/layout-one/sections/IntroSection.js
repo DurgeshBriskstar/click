@@ -31,9 +31,9 @@ export default function IntroSection({ data }) {
                 {data?.leftDescription && (
                   <p className="m-0">{data.leftDescription}</p>
                 )}
-                {data?.buttonText && (
-                  <Button href={data?.buttonLink || "#"} className="btn-click">
-                    {data.buttonText}
+                {(data?.button1Text && data?.button1Link) && (
+                  <Button href={data?.button1Link || "#"} className="btn-click">
+                    {data.button1Text}
                     <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect width="35" height="35" rx="17.5" fill="#F58027" />
                       <path d="M13.5 21.5L21.5 13.5M21.5 13.5H14.3M21.5 13.5V20.7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -58,9 +58,9 @@ export default function IntroSection({ data }) {
             <div className="intro-third" data-aos="fade-left" suppressHydrationWarning>
               <div className="intro-right-content">
                 <h3 className="mb-3">{data.rightTitle}</h3>
-                {(data?.buttonText && data?.buttonLink) && (
-                  <Button href={data?.buttonLink || "#"} className="white-click">
-                    {data.buttonText}
+                {(data?.button2Text && data?.button2Link) && (
+                  <Button href={data?.button2Link || "#"} className="white-click">
+                    {data.button2Text}
                     <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect width="35" height="35" rx="17.5" fill="#F58027" />
                       <path d="M13.5 21.5L21.5 13.5M21.5 13.5H14.3M21.5 13.5V20.7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

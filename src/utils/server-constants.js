@@ -1,4 +1,5 @@
 import path from "path";
+import os from "os";
 import { fileURLToPath } from "url";
 import fs from "fs";
 
@@ -20,7 +21,7 @@ function findProjectRoot() {
     for (const root of possibleRoots) {
         const packageJsonPath = path.join(root, "package.json");
         const nextConfigPath = path.join(root, "next.config.ts");
-        
+
         if (fs.existsSync(packageJsonPath) || fs.existsSync(nextConfigPath)) {
             return root;
         }
@@ -32,8 +33,19 @@ function findProjectRoot() {
 
 const projectRoot = findProjectRoot();
 
-export const PROJECT_UPLOAD_PATH = path.join(
-    projectRoot,
-    "public",
-    "backend-assets"
-);
+const projectBackendAssets = path.join(projectRoot, "public", "backend-assets");
+
+// In serverless (Vercel, Lambda) the project path is read-only; use /tmp so uploads don't fail
+const isServerless =
+    typeof process.env.VERCEL === "string" ||
+    typeof process.env.LAMBDA_TASK_ROOT === "string" ||
+    typeof process.env.AWS_LAMBDA_FUNCTION_NAME === "string";
+
+// Allow override so you can point to a writable path (e.g. mounted volume) in any environment
+const uploadPathFromEnv = process.env.UPLOAD_PATH || process.env.BACKEND_ASSETS_PATH;
+
+export const PROJECT_UPLOAD_PATH = uploadPathFromEnv
+    ? path.resolve(uploadPathFromEnv)
+    : isServerless
+        ? path.join(os.tmpdir(), "backend-assets")
+        : projectBackendAssets;
