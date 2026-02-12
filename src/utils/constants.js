@@ -7,6 +7,8 @@ export const layoutConstant = {
   grocerySidenavWidth: 280
 };
 
+export const maxSizeBytes = parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE, 10) || 5 * 1024 * 1024;
+
 export const STATUS_ACTIVE = 1;
 export const STATUS_INACTIVE = 0;
 export const STATUS_DELETED = 2;

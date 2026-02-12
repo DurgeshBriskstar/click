@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Grid, Tooltip, Typography } from "@mui/material";
+import { Grid, Tooltip } from "@mui/material";
 import { Info } from "@mui/icons-material";
 import { storeSite, updateSite } from "store/slices/siteSettingSlice";
 import { CTextField } from "components/custom";
 import { DarkButton } from "components/custom/button/DarkButton";
 import CImageUpload from "components/custom/inputs/CImageUpload";
-import CSoftPhoneInput from "components/custom/inputs/CPhoneInput";
 
 const getInitialValues = (siteKey, currentRecord) => {
     return {

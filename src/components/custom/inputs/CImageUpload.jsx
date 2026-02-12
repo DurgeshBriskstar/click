@@ -1,18 +1,25 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Controller } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import { Box, Typography, IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { getFileFullPath } from "utils/formats";
+import { maxSizeBytes } from "utils/constants";
+
+const maxSizeMB = (maxSizeBytes / (1024 * 1024)).toFixed(1).replace(/\.0$/, "");
 
 const CImageUpload = ({ name, control, label, error, rules, multiple = false, maxFiles = 1, accept = { "image/*": [] }, ...rest }) => {
 
     const DropzoneField = ({ value, onChange }) => {
+        const [sizeError, setSizeError] = useState(null);
         const { getRootProps, getInputProps, isDragActive } = useDropzone({
             accept,
             multiple,
             maxFiles,
+            maxSize: maxSizeBytes,
+            onDropRejected: () => setSizeError(`Please upload an image smaller than ${maxSizeMB} MB`),
             onDrop: async (acceptedFiles) => {
+                setSizeError(null);
                 const toBase64 = (file) =>
                     new Promise((resolve, reject) => {
                         const reader = new FileReader();
@@ -168,7 +175,7 @@ const CImageUpload = ({ name, control, label, error, rules, multiple = false, ma
                     )}
                 </Box>
 
-                {error && (<Typography color="error" sx={{ mt: 1 }}>{error.message}</Typography>)}
+                {(error || sizeError) && (<Typography color="error" sx={{ mt: 1 }}>{error?.message || sizeError}</Typography>)}
             </Box>
         );
     };

@@ -41,6 +41,7 @@ export default function StatSection({ control, sectionKey, errors }) {
                     control={control}
                     name={`sections.${sectionKey}.video_link`}
                     label="Video Link"
+                    type="url"
                     placeholder="Enter video link Ex:Youtube"
                     error={errors.sections?.[sectionKey]?.video_link}
                 />
@@ -104,8 +105,8 @@ export default function StatSection({ control, sectionKey, errors }) {
                                         name={`sections.${sectionKey}.highlights.${catIndex}.number`}
                                         label="Number"
                                         placeholder="Enter number"
-                                        onlyNumbers
-                                        max={8}
+                                        // onlyNumbers
+                                        // max={8}
                                         error={errors?.sections?.[sectionKey].highlights?.[catIndex]?.number}
                                     />
                                 </Box>

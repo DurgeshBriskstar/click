@@ -28,12 +28,14 @@ export default function StatSection({ data }) {
 
           {data?.highlights && data.highlights.length > 0 && (
             <div className="stat-card-wrapper">
-              {data.highlights.map((stat, index) => (
-                <div className="stat-card" key={index} data-aos="flip-up" data-aos-delay={index * 100} suppressHydrationWarning>
-                  {stat?.number && <div className="stat-number">{stat.number}</div>}
-                  {stat?.title && <div className="stat-title">{stat.title}</div>}
-                </div>
-              ))}
+              {data.highlights.map((stat, index) =>
+                (stat?.title && stat?.number) ? (
+                  <div className="stat-card" key={index} data-aos="flip-up" data-aos-delay={index * 100} suppressHydrationWarning>
+                    {stat?.number && <div className="stat-number">{stat.number}</div>}
+                    {stat?.title && <div className="stat-title">{stat.title}</div>}
+                  </div>
+                ) : null
+              )}
             </div>
           )}
         </div>
