@@ -37,10 +37,10 @@ const getInitialValues = (currentRecord) => {
 
 const validationSchema = (isEdit) =>
     yup.object({
-        page_key: isEdit ? yup.string() : yup.string().required("Page key is required!"),
-        title: yup.string().required("Page title required!"),
-        slug: yup.string().required("Page Slug is required!"),
-        status: yup.string().required("Status is required!"),
+        page_key: isEdit ? yup.string() : yup.string().trim().required("Page key is required!"),
+        title: yup.string().trim().required("Page title required!"),
+        slug: yup.string().trim().required("Page Slug is required!"),
+        status: yup.string().trim().required("Status is required!"),
     });
 
 export default function Form({ isEdit, onBack, currentRecord }) {

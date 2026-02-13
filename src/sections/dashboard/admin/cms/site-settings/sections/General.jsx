@@ -24,7 +24,7 @@ const getInitialValues = (siteKey, currentRecord) => {
 };
 
 const validationSchema = yup.object().shape({
-    site_name: yup.string().required("Site name is required!"),
+    site_name: yup.string().trim().required("Site name is required!"),
 });
 
 export default function General({ siteKey = "clickitco", currentRecord }) {

@@ -22,10 +22,10 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-    name: yup.string().required("Name is required"),
-    email: yup.string().email("Invalid Email Address").required("Email is required"),
-    password: yup.string().required("Password is required"),
-    re_password: yup.string().oneOf([yup.ref("password")], "Passwords must match").required("Please re-type password"),
+    name: yup.string().trim().required("Name is required"),
+    email: yup.string().trim().email("Invalid Email Address").required("Email is required"),
+    password: yup.string().trim().required("Password is required"),
+    re_password: yup.string().trim().oneOf([yup.ref("password")], "Passwords must match").required("Please re-type password"),
     agreement: yup.bool().test("agreement", "You have to agree with our Terms and Conditions!", value => value === true).required("You have to agree with our Terms and Conditions!")
 });
 

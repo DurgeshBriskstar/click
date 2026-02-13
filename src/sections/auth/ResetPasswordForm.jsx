@@ -22,10 +22,12 @@ const initialValues = {
 const validationSchema = yup.object().shape({
     password: yup
         .string()
+        .trim()
         .min(6, "Password must be at least 6 characters!")
         .required("Password is required!"),
     confirmPassword: yup
         .string()
+        .trim()
         .oneOf([yup.ref("password")], "Passwords must match!")
         .required("Please confirm your password!")
 });

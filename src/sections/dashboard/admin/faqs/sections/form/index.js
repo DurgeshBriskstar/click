@@ -26,8 +26,8 @@ const getInitialValues = (currentRecord) => {
 };
 
 const validationSchema = yup.object().shape({
-    question: yup.string().required("Question is required!"),
-    answer: yup.string().required("Answer is required!"),
+    question: yup.string().trim().required("Question is required!"),
+    answer: yup.string().trim().required("Answer is required!"),
     status: yup.number().transform((value, originalValue) => originalValue === "" ? undefined : value).required("Status is required!"),
     show_on_stores: yup.boolean(),
     service_id: yup.mixed().nullable(),

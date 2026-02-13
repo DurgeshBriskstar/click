@@ -18,7 +18,7 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-    email: yup.string().email("Invalid email address").required("Email is required")
+    email: yup.string().trim().email("Invalid email address").required("Email is required")
 });
 
 export default function ForgotPasswordForm() {

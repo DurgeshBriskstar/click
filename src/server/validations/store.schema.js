@@ -1,8 +1,9 @@
 import * as yup from "yup";
 
 export const storeSchema = yup.object({
-    store_name: yup.string().required("Store name is required!"),
+    store_name: yup.string().trim().required("Store name is required!"),
     store_slug: yup.string()
+        .trim()
         .required("Store slug is required!")
         .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase with hyphens only"),
     image: yup.mixed().nullable(),
@@ -10,7 +11,7 @@ export const storeSchema = yup.object({
     highlevel_api_key: yup.string().nullable(),
     sections: yup.mixed().nullable(),
     contact_us: yup.object({
-        store_address: yup.string().required("Store address is required!"),
+        store_address: yup.string().trim().required("Store address is required!"),
         store_hours: yup.string().nullable(),
         store_email: yup.string().nullable(),
         store_phone: yup.string().nullable(),

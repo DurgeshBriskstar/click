@@ -1,8 +1,9 @@
 import * as yup from "yup";
 
 export const serviceSchema = yup.object({
-    service_name: yup.string().required("Service name is required!"),
+    service_name: yup.string().trim().required("Service name is required!"),
     service_slug: yup.string()
+        .trim()
         .required("Service slug is required!")
         .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase with hyphens only"),
     short_description: yup.string().nullable(),

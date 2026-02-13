@@ -82,12 +82,13 @@ const getInitialValues = (currentRecord) => {
 };
 
 const validationSchema = yup.object().shape({
-    store_name: yup.string().required("Store name is required!"),
+    store_name: yup.string().trim().required("Store name is required!"),
     store_slug: yup.string()
+        .trim()
         .required("Store slug is required!")
         .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase with hyphens only (e.g., my-store-name)"),
     contact_us: yup.object().shape({
-        store_address: yup.string().required("Store address is required!"),
+        store_address: yup.string().trim().required("Store address is required!"),
         store_hours: yup.string().nullable(),
         store_email: yup.string().email("Invalid email format").nullable(),
         store_phone: yup.string().nullable(),

@@ -30,31 +30,33 @@ const getInitialValues = (currentRecord) => {
 };
 
 const createValidationSchema = yup.object().shape({
-    first_name: yup.string().required("First name is required!"),
+    first_name: yup.string().trim().required("First name is required!"),
     last_name: yup.string().nullable(),
-    email: yup.string().email("Invalid email format").required("Email is required!"),
+    email: yup.string().trim().email("Invalid email format").required("Email is required!"),
     phone: yup.string().nullable(),
     password: yup.string()
+        .trim()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required!"),
-    role: yup.string().required("Role is required!"),
+    role: yup.string().trim().required("Role is required!"),
     store_id: yup.number().nullable().transform((value) => (isNaN(value) ? null : value)),
     image: yup.mixed().nullable(),
     status: yup.number().transform((value, originalValue) => originalValue === "" ? undefined : value).required("Status is required!"),
 });
 
 const updateValidationSchema = yup.object().shape({
-    first_name: yup.string().required("First name is required!"),
+    first_name: yup.string().trim().required("First name is required!"),
     last_name: yup.string().nullable(),
     phone: yup.string().nullable(),
     password: yup.string()
+        .trim()
         .nullable()
         .transform((value) => (value === "" ? null : value))
         .test('min-length', 'Password must be at least 6 characters', function (value) {
             if (value === null || value === undefined || value === '') return true;
             return value.length >= 6;
         }),
-    role: yup.string().required("Role is required!"),
+    role: yup.string().trim().required("Role is required!"),
     store_id: yup.number().nullable().transform((value) => (isNaN(value) ? null : value)),
     image: yup.mixed().nullable(),
     status: yup.number().transform((value, originalValue) => originalValue === "" ? undefined : value).required("Status is required!"),

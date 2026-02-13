@@ -29,9 +29,9 @@ const getInitialValues = (currentRecord) => {
 };
 
 const validationSchema = yup.object().shape({
-    first_name: yup.string().required("First name is required!"),
-    last_name: yup.string().required("Last name is required!"),
-    email: yup.string().email("Invalid Email").required("Email is required!"),
+    first_name: yup.string().trim().required("First name is required!"),
+    last_name: yup.string().trim().required("Last name is required!"),
+    email: yup.string().trim().email("Invalid Email").required("Email is required!"),
     image: yup.mixed().nullable(),
     highlevel_franchise_access_token: yup.string().nullable(),
     highlevel_franchise_form_id: yup.string().nullable(),
