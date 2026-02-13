@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
@@ -10,6 +11,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { FlexBetween } from "components/flex-box";
 import secureAxiosInstance from "lib/secureAxiosInstance";
+import { format } from "date-fns";
 
 export default function QuickBooksStatCard({ type = "revenue" }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +20,7 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
     const [error, setError] = useState(null);
     const router = useRouter();
     const pathname = usePathname();
+    const { startDate, endDate } = useSelector((state) => state.dashboardInquiry);
 
     useEffect(() => {
         checkConnectionAndFetchData();
@@ -27,17 +30,14 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
             const quickbooksSuccess = urlParams.get('quickbooks_success');
 
             if (quickbooksSuccess === 'connected') {
-                // Refresh connection status after a short delay
                 setTimeout(() => {
                     checkConnectionAndFetchData();
-                    // Remove query param from URL
                     const newUrl = window.location.pathname;
                     window.history.replaceState({}, '', newUrl);
                 }, 1500);
             }
         }
 
-        // Also refresh when window gains focus (user might have logged in in another tab)
         const handleFocus = () => {
             checkConnectionAndFetchData();
         };
@@ -47,7 +47,7 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
         return () => {
             window.removeEventListener('focus', handleFocus);
         };
-    }, []);
+    }, [startDate, endDate]);
 
     const checkConnectionAndFetchData = async () => {
         try {
@@ -62,8 +62,13 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
                 const companies = statusResponse.data.data.companies;
                 const realmId = companies[0]?.realmId;
 
-                // Fetch Profit and Loss report for first company
-                const reportResponse = await secureAxiosInstance.get(`/quickbooks/reports/profit-loss?minorversion=65${realmId ? `&realmId=${encodeURIComponent(realmId)}` : ""}`);
+                const params = new URLSearchParams({ minorversion: "65" });
+                if (realmId) params.set("realmId", realmId);
+                if (startDate && endDate) {
+                    params.set("startDate", format(new Date(startDate), "yyyy-MM-dd"));
+                    params.set("endDate", format(new Date(endDate), "yyyy-MM-dd"));
+                }
+                const reportResponse = await secureAxiosInstance.get(`/quickbooks/reports/profit-loss?${params.toString()}`);
 
                 if (reportResponse?.data?.success && reportResponse?.data?.data?.report) {
                     const report = reportResponse.data.data.report;
@@ -74,7 +79,6 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
                 }
             } else {
                 setIsConnected(false);
-                console.log("QuickBooks not connected:", statusResponse?.data);
             }
         } catch (err) {
             console.error("QuickBooks error:", err);
@@ -87,112 +91,105 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
 
     const extractValue = (report, type) => {
         try {
-            if (!report?.QueryResponse?.Report) {
+            if (!report || typeof report !== "object") {
+                setValue(null);
                 return;
             }
 
-            const reportData = report.QueryResponse.Report;
-
-            // QuickBooks P&L report structure can have different formats
-            // Handle both array and single object formats for Rows.Row
-            const rows = Array.isArray(reportData.Rows?.Row)
-                ? reportData.Rows.Row
-                : reportData.Rows?.Row
-                    ? [reportData.Rows.Row]
-                    : [];
-
-            let extractedValue = null;
-
-            // Helper function to parse currency value
-            const parseCurrency = (value) => {
-                if (!value) return 0;
-                const cleaned = String(value).replace(/[,$]/g, '');
+            const parseCurrency = (val) => {
+                if (val == null || val === "") return 0;
+                const cleaned = String(val).replace(/[,$\s]/g, "");
                 return parseFloat(cleaned) || 0;
             };
 
-            // Helper function to find value in row
+            const getLabel = (row) => {
+                const s = row?.Summary?.ColData?.[0];
+                const h = row?.Header?.ColData?.[0];
+                const c = row?.ColData?.[0];
+                const v = (x) => (x && typeof x === "object" && "value" in x ? x.value : x);
+                return [s, h, c].map(v).find((x) => x != null && x !== "") ?? "";
+            };
+
+            const getValueFromColData = (colData) => {
+                if (!colData?.length) return null;
+                const last = colData[colData.length - 1];
+                const val = last && typeof last === "object" && "value" in last ? last.value : last;
+                return parseCurrency(val);
+            };
+
             const getRowValue = (row) => {
-                if (row?.Summary?.ColData) {
-                    // Summary row - get last column (usually the total)
-                    const lastCol = row.Summary.ColData[row.Summary.ColData.length - 1];
-                    return parseCurrency(lastCol?.value);
-                }
-                if (row?.ColData) {
-                    // Regular row - get last column
-                    const lastCol = row.ColData[row.ColData.length - 1];
-                    return parseCurrency(lastCol?.value);
-                }
+                if (row?.Summary?.ColData?.length) return getValueFromColData(row.Summary.ColData);
+                if (row?.ColData?.length) return getValueFromColData(row.ColData);
+                if (row?.Header?.ColData?.length > 1) return getValueFromColData(row.Header.ColData);
                 return null;
             };
 
-            if (type === "revenue") {
-                // Look for Income section or Total Income
-                const incomeRow = rows.find(row => {
-                    const label = row?.ColData?.[0]?.value || '';
-                    const group = row?.group || '';
-                    return label.toLowerCase().includes('total income') ||
-                        label.toLowerCase().includes('total revenue') ||
-                        group === 'Income';
-                });
+            const labelMatches = (label, ...keywords) => {
+                const lower = (label || "").toLowerCase();
+                return keywords.some((k) => lower.includes(k));
+            };
 
-                if (incomeRow) {
-                    extractedValue = getRowValue(incomeRow);
+            const reportData =
+                report?.QueryResponse?.Report ??
+                report?.Report ??
+                report?.Body ??
+                report?.ProfitAndLossReport ??
+                report;
+            const rowsContainer = reportData?.Rows ?? reportData?.rows;
+            const rowList = rowsContainer?.Row ?? rowsContainer?.row;
+            const topRows = Array.isArray(rowList) ? rowList : rowList != null ? [rowList] : [];
+
+            const collectAllRows = (rows, out = []) => {
+                for (const row of rows) {
+                    if (!row) continue;
+                    out.push(row);
+                    const nested = row?.Rows?.Row ?? row?.Rows?.row ?? row?.rows?.Row ?? row?.rows?.row;
+                    const arr = Array.isArray(nested) ? nested : nested ? [nested] : [];
+                    if (arr.length) collectAllRows(arr, out);
                 }
+                return out;
+            };
 
-                // If not found, try to find in nested rows
-                if (extractedValue === null) {
-                    for (const row of rows) {
-                        if (row?.group === 'Income' && row?.Rows?.Row) {
-                            const incomeRows = Array.isArray(row.Rows.Row) ? row.Rows.Row : [row.Rows.Row];
-                            const totalRow = incomeRows.find(r => {
-                                const label = r?.ColData?.[0]?.value || '';
-                                return label.toLowerCase().includes('total');
-                            });
-                            if (totalRow) {
-                                extractedValue = getRowValue(totalRow);
-                                break;
-                            }
-                        }
+            const allRows = collectAllRows(topRows);
+            let extractedValue = null;
+
+            // Revenue card shows Net Income (actual revenue / bottom line), not Total Income
+            const effectiveType = type === "revenue" ? "netIncome" : type;
+
+            for (const row of allRows) {
+                const label = getLabel(row);
+                if (!label) continue;
+                const isMatch =
+                    effectiveType === "revenue"
+                        ? labelMatches(label, "total income", "total revenue") || (labelMatches(label, "income") && row?.Summary?.ColData?.length)
+                        : effectiveType === "expenses"
+                            ? labelMatches(label, "total expenses", "total expense") || (labelMatches(label, "expenses") && row?.Summary?.ColData?.length)
+                            : labelMatches(label, "net income");
+                if (isMatch) {
+                    const v = getRowValue(row);
+                    if (v != null) {
+                        extractedValue = v;
+                        break;
                     }
                 }
-            } else if (type === "expenses") {
-                // Look for Expenses section or Total Expenses
-                const expenseRow = rows.find(row => {
-                    const label = row?.ColData?.[0]?.value || '';
-                    const group = row?.group || '';
-                    return label.toLowerCase().includes('total expenses') ||
-                        group === 'Expenses';
-                });
+            }
 
-                if (expenseRow) {
-                    extractedValue = getRowValue(expenseRow);
+            if (extractedValue == null && effectiveType === "revenue") {
+                const incomeSection = topRows.find((r) => labelMatches(getLabel(r), "income") && !labelMatches(getLabel(r), "total"));
+                if (incomeSection?.Summary?.ColData?.length) extractedValue = getValueFromColData(incomeSection.Summary.ColData);
+                else if (incomeSection?.Rows?.Row) {
+                    const inner = Array.isArray(incomeSection.Rows.Row) ? incomeSection.Rows.Row : [incomeSection.Rows.Row];
+                    const totalRow = inner.find((r) => labelMatches(getLabel(r), "total"));
+                    if (totalRow) extractedValue = getRowValue(totalRow);
                 }
-
-                // If not found, try to find in nested rows
-                if (extractedValue === null) {
-                    for (const row of rows) {
-                        if (row?.group === 'Expenses' && row?.Rows?.Row) {
-                            const expenseRows = Array.isArray(row.Rows.Row) ? row.Rows.Row : [row.Rows.Row];
-                            const totalRow = expenseRows.find(r => {
-                                const label = r?.ColData?.[0]?.value || '';
-                                return label.toLowerCase().includes('total');
-                            });
-                            if (totalRow) {
-                                extractedValue = getRowValue(totalRow);
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else if (type === "netIncome") {
-                // Look for Net Income
-                const netIncomeRow = rows.find(row => {
-                    const label = row?.ColData?.[0]?.value || '';
-                    return label.toLowerCase().includes('net income');
-                });
-
-                if (netIncomeRow) {
-                    extractedValue = getRowValue(netIncomeRow);
+            }
+            if (extractedValue == null && effectiveType === "expenses") {
+                const expSection = topRows.find((r) => labelMatches(getLabel(r), "expenses") && !labelMatches(getLabel(r), "total"));
+                if (expSection?.Summary?.ColData?.length) extractedValue = getValueFromColData(expSection.Summary.ColData);
+                else if (expSection?.Rows?.Row) {
+                    const inner = Array.isArray(expSection.Rows.Row) ? expSection.Rows.Row : [expSection.Rows.Row];
+                    const totalRow = inner.find((r) => labelMatches(getLabel(r), "total"));
+                    if (totalRow) extractedValue = getRowValue(totalRow);
                 }
             }
 
@@ -216,7 +213,7 @@ export default function QuickBooksStatCard({ type = "revenue" }) {
     const getTitle = () => {
         switch (type) {
             case "revenue":
-                return "Total Revenue";
+                return "Net Income";
             case "expenses":
                 return "Total Expenses";
             case "netIncome":
